@@ -28,12 +28,6 @@ Nicht per Doppelklick als `file:///...` öffnen. Stattdessen:
 
 Eine Internetverbindung wird benötigt, da Karten und JavaScript-Bibliotheken extern geladen werden.
 
-## Auf GitHub Pages veröffentlichen/aktualisieren
-
-1. Lade `index.html` sowie `.nojekyll` in das Stammverzeichnis deines GitHub-Repositorys hoch.
-2. Überschreibe die alte `index.html` und bestätige die Änderung mit `Commit changes`.
-3. Öffne `Settings` → `Pages` und stelle bei Bedarf `Deploy from a branch`, Branch `main` und Ordner `/(root)` ein.
-4. Öffne die veröffentlichte Website und lade sie mit `Strg+F5` neu, damit kein alter Browsercache benutzt wird.
 
 ## Wichtige Hinweise
 
@@ -41,8 +35,3 @@ Eine Internetverbindung wird benötigt, da Karten und JavaScript-Bibliotheken ex
 - Das JPEG exportiert den sichtbaren Kartenbereich. Der Export kann bei externen Rasterdiensten scheitern, falls der WMS-Server Canvas-Zugriff per CORS nicht erlaubt. In diesem Fall funktionieren die Kartenanzeige und GeoJSON-Exporte möglicherweise trotzdem; ein serverseitiger Kartenexport wäre dann eine Alternative.
 - Das GeoJSON wird in WGS 84 exportiert. QGIS kann es bei Bedarf nach EPSG:25832 transformieren.
 - Die App ist ein Planungswerkzeug und keine amtliche Vermessung. Dienste und externe Bibliotheken benötigen Internetzugriff.
-
-
-## Fehlerkorrektur: Bäume werden nicht angezeigt
-
-In dieser Version wird OpenLayers als `OlMap` importiert, sodass die nativen JavaScript-Maps `treeOverrides` und `treeStyleCache` weiterhin `clear()`, `has()`, `get()` und `set()` unterstützen. Wenn du die vorige Version veröffentlicht hast, ersetze die alte `index.html` durch diese Version und lade die Website mit Strg+F5 neu.
