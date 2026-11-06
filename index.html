@@ -26,8 +26,22 @@
     .status{background:#f1f6fb;border:1px solid #dae7f2;border-radius:9px;padding:9px;font-size:11px;color:#254d6a;line-height:1.45;overflow-wrap:anywhere}.status.error{background:#fff2f1;border-color:#f1d1ce;color:#8b2924}.status.good{background:#eef8f0;border-color:#c9e5d0;color:#235e35}
     .hint{font-size:11px;color:#65756e}.divider{height:1px;background:var(--line);margin:11px 0}.small{font-size:10px;color:#6d7b75}
     .map-badge{position:absolute;top:12px;left:58px;z-index:5;background:#ffffffea;border:1px solid #d6e1dc;border-radius:10px;padding:8px 11px;box-shadow:var(--shadow);font-size:11px;max-width:310px;pointer-events:none}
-    .map-wrap{position:relative;min-width:0;min-height:0} .legend{position:absolute;bottom:28px;left:12px;z-index:5;display:flex;gap:12px;flex-wrap:wrap;background:#ffffffea;border:1px solid #d6e1dc;border-radius:10px;padding:8px 10px;font-size:11px;pointer-events:none}.legend span{display:flex;align-items:center;gap:5px}.swatch{width:13px;height:13px;border:2px solid #286d49;border-radius:50%;background:#69b780aa}.swatch.area{border-radius:3px;background:#b9e0c880;border-color:#28734e}.swatch.obstacle{border-radius:50%;background:#d9656580;border-color:#b84545}.swatch.boundary{border-radius:0;background:transparent;border:2px dashed #59646f}.swatch.species{border-radius:50%;border:2px solid var(--swatch-stroke);background:var(--swatch-fill)}.selection-note{font-size:11px;color:#52645b;line-height:1.4}.species-chip{display:inline-flex;align-items:center;gap:5px;margin:3px 8px 3px 0;font-size:10px;color:#33483c}.species-dot{width:10px;height:10px;border-radius:50%;display:inline-block;border:1px solid #ffffff;box-shadow:0 0 0 1px #7a8a80}
+    .map-wrap{position:relative;min-width:0;min-height:0} .legend{position:absolute;bottom:28px;left:12px;z-index:5;display:flex;gap:12px;flex-wrap:wrap;background:#ffffffea;border:1px solid #d6e1dc;border-radius:10px;padding:8px 10px;font-size:11px;pointer-events:none}.legend span{display:flex;align-items:center;gap:5px}.swatch{width:13px;height:13px;border:2px solid #286d49;border-radius:50%;background:#69b780aa}.swatch.area{border-radius:3px;background:#b9e0c880;border-color:#28734e}.swatch.obstacle{border-radius:50%;background:#d9656580;border-color:#b84545}.swatch.boundary{border-radius:0;background:transparent;border:2px dashed #59646f}.swatch.axis{border-radius:0;background:transparent;border:2px dashed #1f709b}.swatch.species{border-radius:50%;border:2px solid var(--swatch-stroke);background:var(--swatch-fill)}.selection-note{font-size:11px;color:#52645b;line-height:1.4}.species-chip{display:inline-flex;align-items:center;gap:5px;margin:3px 8px 3px 0;font-size:10px;color:#33483c}.species-dot{width:10px;height:10px;border-radius:50%;display:inline-block;border:1px solid #ffffff;box-shadow:0 0 0 1px #7a8a80}
     .ol-attribution{font-size:10px}.ol-scale-line{bottom:10px;left:auto;right:10px;background:#ffffffdc;color:#273c34;border-radius:4px}.ol-scale-line-inner{border-color:#273c34;color:#273c34}.selected-tree-card{border-color:#b9d7c3;background:#fbfefc}.control-help{font-size:10px;color:#63736b;line-height:1.4;margin-top:5px}
+
+    .map-toolbox{position:absolute;right:12px;top:76px;z-index:8;display:flex;flex-direction:column;gap:6px;padding:7px;background:#ffffffed;border:1px solid #d2ddd7;border-radius:13px;box-shadow:var(--shadow);backdrop-filter:blur(5px)}
+    .map-toolbox button{width:42px;height:42px;padding:4px;font-size:18px;display:grid;place-items:center;border-radius:9px;position:relative}
+    .map-toolbox button small{position:absolute;right:49px;white-space:nowrap;background:#173a2c;color:#fff;padding:5px 8px;border-radius:6px;font-size:10px;font-weight:650;opacity:0;pointer-events:none;transition:opacity .12s}
+    .map-toolbox button:hover small{opacity:1}
+    .map-toolbox button.active{background:#28734e;border-color:#28734e;color:#fff;box-shadow:0 0 0 2px #c9e5d0}
+    .map-toolbox .tool-sep{height:1px;background:#d7e0dc;margin:2px 3px}
+    .measure-panel{position:absolute;right:66px;bottom:18px;z-index:7;max-width:min(420px,calc(100% - 90px));background:#ffffffed;border:1px solid #d6e1dc;border-radius:10px;padding:10px 12px;box-shadow:var(--shadow);font-size:11px;line-height:1.45;pointer-events:none;white-space:pre-line;display:none}
+    .measure-panel.visible{display:block}
+    .measure-panel strong{color:#174b31}
+    .tool-help{font-size:10px;color:#66756e;line-height:1.4;margin-top:5px}
+    .status.tool-status{background:#f4f7ff;border-color:#d5def3;color:#344d78}
+    .ol-viewport.tool-pan-grid,.ol-viewport.tool-move-tree,.ol-viewport.tool-rotate-grid{cursor:crosshair}
+    .ol-viewport.tool-measure{cursor:crosshair}
     @media(max-width:850px){main{grid-template-columns:1fr;grid-template-rows:minmax(330px,48vh) minmax(320px,1fr);height:auto;min-height:calc(100% - 64px)}aside{grid-row:2;border-right:0;border-top:1px solid var(--line);max-height:none} .map-wrap{grid-row:1}body{height:auto;min-height:100%}#map{height:48vh;min-height:330px}}
   </style>
 </head>
@@ -80,11 +94,11 @@
       <label for="diameter">Baum-Durchmesser (m)</label>
       <div class="range-row"><input id="diameter" type="range" min="2" max="20" step="0.5" value="10"><output id="diameterOut">10 m</output></div>
       <label for="angle">Drehwinkel (Grad)</label>
-      <div class="range-row"><input id="angle" type="range" min="0" max="180" step="1" value="0"><output id="angleOut">0°</output></div>
+      <div class="range-row"><input id="angle" type="range" min="0" max="360" step="1" value="0"><output id="angleOut">0°</output></div>
       <label for="offsetX">Nach links / rechts verschieben (m)</label>
-      <div class="range-row"><input id="offsetX" type="range" min="-30" max="30" step="0.1" value="0"><output id="offsetXOut">0 m</output></div>
+      <div class="range-row"><input id="offsetX" type="range" min="-200" max="200" step="0.1" value="0"><output id="offsetXOut">0 m</output></div>
       <label for="offsetY">Nach unten / oben verschieben (m)</label>
-      <div class="range-row"><input id="offsetY" type="range" min="-30" max="30" step="0.1" value="0"><output id="offsetYOut">0 m</output></div>
+      <div class="range-row"><input id="offsetY" type="range" min="-200" max="200" step="0.1" value="0"><output id="offsetYOut">0 m</output></div>
       <label for="spacing">Abstand entlang einer Reihe (m)</label>
       <div class="range-row"><input id="spacing" type="range" min="10.02" max="20" step="0.1" value="10.02"><output id="spacingOut">10,02 m</output></div>
       <label for="rowPitch">Abstand zwischen Reihen (m)</label>
@@ -142,10 +156,21 @@
   <div class="map-wrap">
     <div id="map"></div>
     <div class="map-badge" id="mapBadge">Zeichne einen Bereich, um das Gitter zu starten. Maße werden in Metern berechnet.</div>
+    <div class="map-toolbox" aria-label="Kartenwerkzeuge">
+      <button id="toolMoveGrid" title="Gesamtes Gitter verschieben">↔<small>Gitter verschieben</small></button>
+      <button id="toolRotateGrid" title="Gitter drehen">⟳<small>Gitter drehen · zuerst Baum als Drehzentrum wählen</small></button>
+      <button id="toolMoveTree" title="Einzelnen Baum verschieben">●<small>Einzelbaum verschieben</small></button>
+      <div class="tool-sep"></div>
+      <button id="toolMeasure" title="Entfernung und Winkel messen">⌁<small>Entfernung und Winkel messen</small></button>
+      <button id="toolSurvey" title="Alle Gitterachsen und Maße anzeigen">📐<small>Vermessungsmaße ein-/ausblenden</small></button>
+      <button id="toolClearMeasures" title="Messungen löschen">×<small>Messlinien löschen</small></button>
+    </div>
+    <div id="measurePanel" class="measure-panel"></div>
     <div class="legend">
       <span><i class="swatch area"></i> Maximalbereich</span>
       <span><i class="swatch boundary"></i> Grundstück</span>
       <span><i class="swatch obstacle"></i> Hindernis</span>
+      <span id="axisLegend" style="display:none"><i class="swatch axis"></i> Gitterachsen / Maße</span>
       <span><i class="swatch species" style="--swatch-fill:rgba(211,91,83,.62);--swatch-stroke:#a43f39"></i> Apfel</span>
       <span><i class="swatch species" style="--swatch-fill:rgba(232,190,65,.72);--swatch-stroke:#a27b15"></i> Birne</span>
       <span><i class="swatch species" style="--swatch-fill:rgba(194,61,111,.62);--swatch-stroke:#8a264d"></i> Kirsche</span>
@@ -186,6 +211,8 @@ import Draw from 'https://esm.sh/ol@10.6.1/interaction/Draw.js?target=es2022';
 import Feature from 'https://esm.sh/ol@10.6.1/Feature.js?target=es2022';
 import Point from 'https://esm.sh/ol@10.6.1/geom/Point.js?target=es2022';
 import Polygon from 'https://esm.sh/ol@10.6.1/geom/Polygon.js?target=es2022';
+import LineString from 'https://esm.sh/ol@10.6.1/geom/LineString.js?target=es2022';
+import DragPan from 'https://esm.sh/ol@10.6.1/interaction/DragPan.js?target=es2022';
 import {fromLonLat, toLonLat} from 'https://esm.sh/ol@10.6.1/proj.js?target=es2022';
 import {register} from 'https://esm.sh/ol@10.6.1/proj/proj4.js?target=es2022';
 import proj4 from 'https://esm.sh/proj4@2.12.1?target=es2022';
@@ -195,6 +222,7 @@ import {defaults as defaultControls, ScaleLine} from 'https://esm.sh/ol@10.6.1/c
 import Style from 'https://esm.sh/ol@10.6.1/style/Style.js?target=es2022';
 import Fill from 'https://esm.sh/ol@10.6.1/style/Fill.js?target=es2022';
 import Stroke from 'https://esm.sh/ol@10.6.1/style/Stroke.js?target=es2022';
+import Text from 'https://esm.sh/ol@10.6.1/style/Text.js?target=es2022';
 
 const UTM='EPSG:25832', VIEW='EPSG:3857', WGS='EPSG:4326';
 proj4.defs(UTM, '+proj=utm +zone=32 +ellps=GRS80 +units=m +no_defs +type=crs');
@@ -212,6 +240,9 @@ const obstacleCircleSource=new VectorSource();
 const treeSource=new VectorSource();
 const centerSource=new VectorSource();
 const featureSource=new VectorSource();
+const surveySource=new VectorSource();
+const manualMeasureSource=new VectorSource();
+const treePositionOverrides=new Map();
 // Flat styles use OpenLayers' supported literal style syntax. All OpenLayers modules use the same
 // esm.sh-transformed package version so dependencies such as rbush resolve in the browser.
 const areaStyle = {
@@ -261,14 +292,31 @@ const centerStyle = {
   'circle-stroke-color':'#ffffff',
   'circle-stroke-width':0.8
 };
+function surveyFeatureStyle(feature){
+  const kind=feature.get('kind');
+  if(kind==='axis')return new Style({stroke:new Stroke({color:'rgba(31,112,155,0.48)',width:1.15,lineDash:[7,6]})});
+  if(kind==='dimension')return new Style({stroke:new Stroke({color:'rgba(30,67,48,0.72)',width:1.05})});
+  if(kind==='boundaryDimension')return new Style({stroke:new Stroke({color:'rgba(30,67,48,0.9)',width:2.0})});
+  if(kind==='label')return new Style({text:new Text({text:String(feature.get('label')||''),font:'600 10px system-ui,sans-serif',fill:new Fill({color:'#163326'}),stroke:new Stroke({color:'rgba(255,255,255,0.95)',width:3}),backgroundFill:new Fill({color:'rgba(255,255,255,0.90)'}),padding:[2,3,2,3],overflow:true})});
+  return new Style({stroke:new Stroke({color:'#286d49',width:1})});
+}
+function manualMeasureStyle(feature){
+  const kind=feature.get('kind');
+  if(kind==='label')return new Style({text:new Text({text:String(feature.get('label')||''),font:'bold 12px system-ui,sans-serif',fill:new Fill({color:'#0c477a'}),stroke:new Stroke({color:'#fff',width:3}),backgroundFill:new Fill({color:'rgba(255,255,255,.94)'}),padding:[3,5,3,5],overflow:true})});
+  return new Style({stroke:new Stroke({color:'#1769aa',width:2.4,lineDash:[8,5]})});
+}
 const maxLayer = new VectorLayer({source:maxSource,style:areaStyle,zIndex:4});
 const boundaryLayer = new VectorLayer({source:boundarySource,style:boundaryStyle,zIndex:6});
 const obstacleCircleLayer = new VectorLayer({source:obstacleCircleSource,style:obstacleStyle,zIndex:7});
 const treeLayer = new VectorLayer({source:treeSource,style:treeFeatureStyle,zIndex:8});
 const centerLayer = new VectorLayer({source:centerSource,style:centerStyle,zIndex:9});
-const map = new OlMap({target:'map',layers:[osmLayer,dopLayer,parcelLayer,maxLayer,boundaryLayer,obstacleCircleLayer,treeLayer,centerLayer],view:new View({center:fromLonLat([7.45,51.45]),zoom:9}),controls:defaultControls().extend([new ScaleLine({units:'metric'})])});
+const surveyLayer = new VectorLayer({source:surveySource,style:surveyFeatureStyle,zIndex:11,visible:false});
+const manualMeasureLayer = new VectorLayer({source:manualMeasureSource,style:manualMeasureStyle,zIndex:12});
+const map = new OlMap({target:'map',layers:[osmLayer,dopLayer,parcelLayer,maxLayer,boundaryLayer,obstacleCircleLayer,treeLayer,centerLayer,surveyLayer,manualMeasureLayer],view:new View({center:fromLonLat([7.45,51.45]),zoom:9}),controls:defaultControls().extend([new ScaleLine({units:'metric'})])});
 
 let drawInteraction=null, drawMode=null, busy=false, recalcTimer=null, lastCalculation=null;
+let activeTool=null, toolPointer=null, rotationPivot=null, surveyVisible=false;
+const dragPanInteraction=map.getInteractions().getArray().find(i=>i instanceof DragPan);
 function get(id){return document.getElementById(id)}
 function num(id){return Number(get(id).value)}
 function fmtM(v,d=2){return Number(v).toLocaleString('de-DE',{maximumFractionDigits:d,minimumFractionDigits:0})+' m'}
@@ -284,22 +332,37 @@ function safeArea(feature){try{return turf.area(feature)}catch(e){return NaN}}
 function featureFromGeom(geom,props={}){const f=new Feature({geometry:geom});Object.entries(props).forEach(([k,v])=>f.set(k,v));return f}
 function currentBoundary(){return boundarySource.getFeatures().find(f=>f.getGeometry()?.getType()==='Polygon')||null}
 function addOrRemoveDraw(mode){if(drawInteraction){map.removeInteraction(drawInteraction);drawInteraction=null}drawMode=mode;if(!mode){showMapBadge('Zeichnen beendet. Die Regler aktualisieren das Gitter live.');return}
+  if(mode==='polygon' || mode==='obstacle'){
+    if(activeTool){activeTool=null;toolPointer=null;rotationPivot=null;updateToolButtons();if(dragPanInteraction)dragPanInteraction.setActive(true);map.getViewport().classList.remove('tool-pan-grid','tool-move-tree','tool-rotate-grid','tool-measure');}
+  }
   if(mode==='polygon'){
     drawInteraction=new Draw({source:boundarySource,type:'Polygon'});
-    drawInteraction.on('drawstart',()=>{boundarySource.clear();maxSource.clear();treeSource.clear();centerSource.clear();lastCalculation=null;treeOverrides.clear();selectedTreeKey=null;pendingDiameterChange=null;syncSelectedTreeControls();});
+    drawInteraction.on('drawstart',()=>{boundarySource.clear();maxSource.clear();treeSource.clear();centerSource.clear();lastCalculation=null;treeOverrides.clear();treePositionOverrides.clear();selectedTreeKey=null;pendingDiameterChange=null;syncSelectedTreeControls();});
     drawInteraction.on('drawend',()=>{const f=boundarySource.getFeatures().slice(-1)[0];if(f){f.set('layer_type','gezeichneter_Grundbereich');}addOrRemoveDraw(null);scheduleRecalculate(true)});
     showMapBadge('Klicke die Eckpunkte des Maximalbereichs. Doppelklick schließt das Polygon.');
   } else if(mode==='obstacle'){
     drawInteraction=new Draw({source:obstaclePointSource,type:'Point'});
     drawInteraction.on('drawend',(e)=>{e.feature.set('radius_m',num('obstacleRadius'));e.feature.set('layer_type','Hindernismittelpunkt');scheduleRecalculate(true)});
     showMapBadge('Klicke auf die Karte, um ein Hindernis zu setzen. Der eingestellte Radius gilt für alle Hindernisse.');
+  } else if(mode==='measure'){
+    drawInteraction=new Draw({source:manualMeasureSource,type:'LineString',maxPoints:2});
+    drawInteraction.on('drawend',(e)=>{
+      const line=e.feature.getGeometry().clone().transform(VIEW,UTM);const coords=line.getCoordinates();
+      const dx=coords[1][0]-coords[0][0],dy=coords[1][1]-coords[0][1];
+      const length=line.getLength();const angle=(Math.atan2(dy,dx)*180/Math.PI+360)%360;
+      const mid=[(coords[0][0]+coords[1][0])/2,(coords[0][1]+coords[1][1])/2];
+      const label=new Feature({geometry:new Point(mid).transform(UTM,VIEW)});label.set('kind','label');label.set('label',`${fmtM(length,2)} · ${angle.toLocaleString('de-DE',{maximumFractionDigits:1})}°`);manualMeasureSource.addFeature(label);
+      get('measurePanel').classList.add('visible');get('measurePanel').textContent=`Letzte Messung\nEntfernung: ${fmtM(length,2)}\nWinkel zur Ostachse: ${angle.toLocaleString('de-DE',{maximumFractionDigits:1})}°\nZeichne die nächste Messlinie oder schalte das Werkzeug aus.`;
+    });
+    showMapBadge('Entfernung und Winkel messen: Klicke Start- und Endpunkt. Nach dem zweiten Punkt wird die Messung übernommen; du kannst direkt die nächste Linie zeichnen.');
+    get('measurePanel').classList.add('visible');get('measurePanel').textContent='Messwerkzeug aktiv\nKlicke Start- und Endpunkt auf der Karte.\nGemessen werden Entfernung und Winkel zur Ostachse.';
   }
   if(drawInteraction)map.addInteraction(drawInteraction);
 }
 get('drawAreaBtn').addEventListener('click',()=>addOrRemoveDraw('polygon'));
 get('drawObstacleBtn').addEventListener('click',()=>addOrRemoveDraw('obstacle'));
-get('stopDrawBtn').addEventListener('click',()=>addOrRemoveDraw(null));
-get('clearAreaBtn').addEventListener('click',()=>{addOrRemoveDraw(null);boundarySource.clear();maxSource.clear();treeSource.clear();centerSource.clear();lastCalculation=null;treeOverrides.clear();selectedTreeKey=null;pendingDiameterChange=null;syncSelectedTreeControls();setStatus('Bitte zeichne zuerst den Bereich.');showMapBadge('Zeichne einen Bereich, um das Gitter zu starten.');updateStats(0,0,NaN,NaN);});
+get('stopDrawBtn').addEventListener('click',()=>{addOrRemoveDraw(null);if(activeTool){activeTool=null;toolPointer=null;rotationPivot=null;if(dragPanInteraction)dragPanInteraction.setActive(true);updateToolButtons();}});
+get('clearAreaBtn').addEventListener('click',()=>{addOrRemoveDraw(null);if(activeTool){activeTool=null;toolPointer=null;rotationPivot=null;if(dragPanInteraction)dragPanInteraction.setActive(true);updateToolButtons();}boundarySource.clear();maxSource.clear();treeSource.clear();centerSource.clear();lastCalculation=null;treeOverrides.clear();treePositionOverrides.clear();selectedTreeKey=null;pendingDiameterChange=null;syncSelectedTreeControls();setStatus('Bitte zeichne zuerst den Bereich.');showMapBadge('Zeichne einen Bereich, um das Gitter zu starten.');updateStats(0,0,NaN,NaN);});
 get('clearObstaclesBtn').addEventListener('click',()=>{obstaclePointSource.clear();obstacleCircleSource.clear();scheduleRecalculate(true)});
 get('zoomAreaBtn').addEventListener('click',()=>{const f=maxSource.getFeatures()[0]||currentBoundary();if(f)map.getView().fit(f.getGeometry().getExtent(),{padding:[50,50,50,50],duration:350,maxZoom:20})});
 
@@ -440,7 +503,7 @@ function fmtM2(v){return Number.isFinite(v)?Math.round(v).toLocaleString('de-DE'
 function rotatePoint(x,y,centerX,centerY,angle){const c=Math.cos(angle),s=Math.sin(angle),dx=x-centerX,dy=y-centerY;return [centerX+dx*c-dy*s,centerY+dx*s+dy*c]}
 function clearCalced(){maxSource.clear();treeSource.clear();centerSource.clear();}
 function scheduleRecalculate(force=false){if(recalcTimer)clearTimeout(recalcTimer);recalcTimer=setTimeout(()=>recalculate(),force?40:110)}
-function recalculate(){if(busy)return;const boundary=currentBoundary();updateOutputs();if(!boundary){clearCalced();obstacleCircleSource.clear();updateStats(0,0,NaN,NaN);setStatus('Bitte zeichne zuerst den Bereich.');get('summaryText').textContent='Nach dem Zeichnen wird das Gitter live berechnet.';return}busy=true;
+function recalculate(){if(busy)return;const boundary=currentBoundary();updateOutputs();if(!boundary){clearCalced();obstacleCircleSource.clear();surveySource.clear();updateStats(0,0,NaN,NaN);setStatus('Bitte zeichne zuerst den Bereich.');get('summaryText').textContent='Nach dem Zeichnen wird das Gitter live berechnet.';return}busy=true;
   try{
     const baseView=boundary.getGeometry();
     const maxInfo=makeMaximumGeometry(baseView);
@@ -480,9 +543,12 @@ function recalculate(){if(busy)return;const boundary=currentBoundary();updateOut
         if(!circleCandidateIsInside(x,y,r,maxTurf))continue;
         if(!pointAllowedByObstacles(x,y,r,obstacles))continue;
         const key=`${row}:${col}`;
+        const baseX=x,baseY=y;
+        const posOv=treePositionOverrides.get(key);
+        if(posOv){const ca2=Math.cos(angle),sa2=Math.sin(angle);x+=posOv.du*ca2-posOv.dv*sa2;y+=posOv.du*sa2+posOv.dv*ca2;}
         const ov=treeOverrides.get(key)||{};
         const treeD=Number.isFinite(ov.diameter_m)?ov.diameter_m:d;
-        centers.push({x,y,row,col,key,diameter_m:treeD,radius_m:treeD/2,species:ov.species||'Apfel'});
+        centers.push({x,y,baseX,baseY,row,col,key,diameter_m:treeD,radius_m:treeD/2,species:ov.species||'Apfel'});
       }
     }
     const relaxed=relaxTreeLayout(centers,maxTurf,obstacles);
@@ -511,7 +577,8 @@ function recalculate(){if(busy)return;const boundary=currentBoundary();updateOut
     const usable=usableAreaCalculation(maxInfo.maxWgs,obsWgs);
     const totalCircleArea=centers.reduce((sum,p)=>sum+Math.PI*p.radius_m*p.radius_m,0);
     updateStats(centers.length,totalCircleArea,safeArea(maxInfo.maxWgs),usable.area);
-    lastCalculation={baseGeom:baseView.clone(),maxGeom:maxGeom.clone(),centers:centers.map(p=>[p.x,p.y]),trees:centers.map(p=>({...p})),obstacles,diameter:d,angleDeg:num('angle'),along,pitch,stagger,bufferEnabled:get('useBuffer').checked,bufferM:num('bufferM'),maxWgs:maxInfo.maxWgs,baseWgs:maxInfo.baseWgs,usableGeo:usable.features};
+    lastCalculation={baseGeom:baseView.clone(),maxGeom:maxGeom.clone(),centers:centers.map(p=>[p.x,p.y]),trees:centers.map(p=>({...p})),obstacles,diameter:d,angleDeg:num('angle'),along,pitch,stagger,gridCenter:{x:cx,y:cy},gridOrigin:{x:cx+offsetX,y:cy+offsetY},bufferEnabled:get('useBuffer').checked,bufferM:num('bufferM'),maxWgs:maxInfo.maxWgs,baseWgs:maxInfo.baseWgs,usableGeo:usable.features};
+    if(surveyVisible)renderSurveyMeasurements();
     if(pitch>pitchRequested+0.001){get('gridWarning').textContent='Der eingestellte Reihenabstand wäre zu eng. Für überlappungsfreie Kreise wird rechnerisch '+fmtM(pitch)+' verwendet.';get('gridWarning').className='status'}else{get('gridWarning').textContent='Keine Überschneidungen aus dem Gitterabstand zu erwarten; außerhalb des Maximalbereichs liegende Kreise werden entfernt.';get('gridWarning').className='status good'}
     setStatus(`${centers.length} Baumkreise liegen vollständig im Maximalbereich und überschneiden keine Hindernisse.`, 'good');
     const speciesCounts=centers.reduce((a,p)=>(a[p.species]=(a[p.species]||0)+1,a),{});
@@ -530,15 +597,191 @@ function updateOutputs(){
 }
 ['useBuffer','bufferM','diameter','angle','offsetX','offsetY','spacing','rowPitch','stagger'].forEach(id=>get(id).addEventListener('input',()=>scheduleRecalculate()));
 ['showDop','showParcels','showOsm','dopOpacity','parcelOpacity'].forEach(id=>get(id).addEventListener('input',()=>updateOutputs()));
-get('resetGridBtn').addEventListener('click',()=>{get('diameter').value=10;get('angle').value=0;get('offsetX').value=0;get('offsetY').value=0;get('spacing').value=10.02;get('rowPitch').value=8.68;get('stagger').value=0.5;scheduleRecalculate(true)});
+get('resetGridBtn').addEventListener('click',()=>{treePositionOverrides.clear();get('diameter').value=10;get('angle').value=0;get('offsetX').value=0;get('offsetY').value=0;get('spacing').value=10.02;get('rowPitch').value=8.68;get('stagger').value=0.5;scheduleRecalculate(true)});
 
 // Baumkreise lassen sich einzeln anklicken, einfärben und in ihrem Durchmesser anpassen.
 map.on('singleclick',(evt)=>{
   if(drawMode)return;
-  const feature=map.forEachFeatureAtPixel(evt.pixel,(f,layer)=>layer===treeLayer?f:undefined,{layerFilter:layer=>layer===treeLayer,hitTolerance:5});
+  const feature=map.forEachFeatureAtPixel(evt.pixel,(f,layer)=>layer===treeLayer?f:undefined,{layerFilter:layer=>layer===treeLayer,hitTolerance:6});
+  if(activeTool==='rotateGrid' && !rotationPivot){
+    if(!feature){showMapBadge('Bitte zuerst einen Baum anklicken. Dieser Punkt wird das Drehzentrum.');return;}
+    selectedTreeKey=feature.get('tree_key');
+    const item=lastCalculation?.trees.find(t=>t.key===selectedTreeKey);
+    if(!item)return;
+    rotationPivot=[item.x,item.y];syncSelectedTreeControls();treeLayer.changed();
+    showMapBadge('Drehzentrum gesetzt. Ziehe jetzt an einer freien Kartenstelle, um das Gitter um diesen Baum zu drehen.');
+    return;
+  }
+  if(activeTool)return;
   if(feature){selectedTreeKey=feature.get('tree_key');syncSelectedTreeControls();get('treeSelectionStatus').className='status good';}
   else {selectedTreeKey=null;syncSelectedTreeControls();get('treeSelectionStatus').className='status';}
 });
+
+// ---------- Interaktive Kartenwerkzeuge: Gitter, Rotation, Einzelbaum, Messung ----------
+function updateToolButtons(){
+  const ids={moveGrid:'toolMoveGrid',rotateGrid:'toolRotateGrid',moveTree:'toolMoveTree',measure:'toolMeasure'};
+  for(const [tool,id] of Object.entries(ids))get(id).classList.toggle('active',activeTool===tool);
+  get('toolSurvey').classList.toggle('active',surveyVisible);get('axisLegend').style.display=surveyVisible?'inline-flex':'none';
+  map.getViewport().classList.toggle('tool-pan-grid',activeTool==='moveGrid');
+  map.getViewport().classList.toggle('tool-move-tree',activeTool==='moveTree');
+  map.getViewport().classList.toggle('tool-rotate-grid',activeTool==='rotateGrid');
+  map.getViewport().classList.toggle('tool-measure',activeTool==='measure');
+}
+function setRangeValue(id,value){const el=get(id);el.value=String(Math.max(Number(el.min),Math.min(Number(el.max),value)));}
+function setActiveTool(tool){
+  if(drawInteraction){map.removeInteraction(drawInteraction);drawInteraction=null;drawMode=null;}
+  if(activeTool===tool){activeTool=null;toolPointer=null;rotationPivot=null;if(dragPanInteraction)dragPanInteraction.setActive(true);showMapBadge('Werkzeug beendet.');updateToolButtons();return;}
+  activeTool=tool;toolPointer=null;rotationPivot=null;
+  if(tool==='measure'){
+    addOrRemoveDraw('measure');
+    if(dragPanInteraction)dragPanInteraction.setActive(false);
+  }else{
+    drawMode=null;if(dragPanInteraction)dragPanInteraction.setActive(!tool);
+    const hints={moveGrid:'Gitter verschieben: Auf die Karte klicken und ziehen. Alle Bäume bewegen sich gemeinsam.',rotateGrid:'Gitter drehen: Zuerst einen Baum anklicken, um das Drehzentrum festzulegen. Danach an einer freien Kartenstelle ziehen.',moveTree:'Einzelbaum verschieben: Einen Baumkreis anklicken und an die gewünschte Position ziehen.'};
+    showMapBadge(hints[tool]||'');
+  }
+  updateToolButtons();
+}
+function eventCoordUtm(evt){return new Point(evt.coordinate).transform(VIEW,UTM).getCoordinates();}
+function getTreeFeatureAtPixel(pixel){return map.forEachFeatureAtPixel(pixel,(f,layer)=>layer===treeLayer?f:undefined,{layerFilter:layer=>layer===treeLayer,hitTolerance:8});}
+function candidateDoesNotHitOtherTrees(candidate,key,others){
+  return others.every(o=>o.key===key || Math.hypot(candidate.x-o.x,candidate.y-o.y)>=candidate.radius_m+o.radius_m+0.02-0.001);
+}
+map.on('pointerdown',(evt)=>{
+  if(!activeTool||activeTool==='measure'||drawMode||!lastCalculation)return;
+  const here=eventCoordUtm(evt);
+  if(activeTool==='moveGrid'){
+    toolPointer={kind:'moveGrid',start:here,offsetX:num('offsetX'),offsetY:num('offsetY')};
+  }else if(activeTool==='rotateGrid'){
+    if(!rotationPivot){return;}
+    const v=[here[0]-rotationPivot[0],here[1]-rotationPivot[1]];
+    if(Math.hypot(v[0],v[1])<0.5)return;
+    toolPointer={kind:'rotateGrid',pivot:rotationPivot.slice(),startVector:v,startAngle:Math.atan2(v[1],v[0]),angle:num('angle'),offsetX:num('offsetX'),offsetY:num('offsetY'),gridCenter:{...lastCalculation.gridCenter}};
+  }else if(activeTool==='moveTree'){
+    const f=getTreeFeatureAtPixel(evt.pixel);if(!f)return;
+    const key=f.get('tree_key');const item=lastCalculation.trees.find(t=>t.key===key);if(!item)return;
+    selectedTreeKey=key;syncSelectedTreeControls();
+    toolPointer={kind:'moveTree',key,start:here,item:{...item},last:{x:item.x,y:item.y},feature:f};
+    treeLayer.changed();
+  }
+});
+map.on('pointerdrag',(evt)=>{
+  if(!toolPointer)return;
+  const here=eventCoordUtm(evt);
+  if(toolPointer.kind==='moveGrid'){
+    const dx=here[0]-toolPointer.start[0],dy=here[1]-toolPointer.start[1];
+    setRangeValue('offsetX',toolPointer.offsetX+dx);setRangeValue('offsetY',toolPointer.offsetY+dy);updateOutputs();scheduleRecalculate();
+  }else if(toolPointer.kind==='rotateGrid'){
+    const p=toolPointer.pivot,v=[here[0]-p[0],here[1]-p[1]];if(Math.hypot(v[0],v[1])<0.5)return;
+    let delta=Math.atan2(v[1],v[0])-toolPointer.startAngle;while(delta>Math.PI)delta-=2*Math.PI;while(delta<-Math.PI)delta+=2*Math.PI;
+    const deg=((toolPointer.angle+delta*180/Math.PI)%360+360)%360;setRangeValue('angle',deg);
+    const a=delta,c=Math.cos(a),sn=Math.sin(a);const g0=[toolPointer.gridCenter.x+toolPointer.offsetX,toolPointer.gridCenter.y+toolPointer.offsetY];
+    const rx=g0[0]-p[0],ry=g0[1]-p[1];const gx=p[0]+rx*c-ry*sn,gy=p[1]+rx*sn+ry*c;
+    setRangeValue('offsetX',gx-toolPointer.gridCenter.x);setRangeValue('offsetY',gy-toolPointer.gridCenter.y);updateOutputs();scheduleRecalculate();
+  }else if(toolPointer.kind==='moveTree'){
+    const t=toolPointer,dx=here[0]-t.start[0],dy=here[1]-t.start[1];
+    const candidate={...t.item,x:t.item.x+dx,y:t.item.y+dy};
+    const maxTurf=polygonFeatureInUtm(lastCalculation.maxGeom);
+    if(!treeCircleIsLegal(candidate,maxTurf,lastCalculation.obstacles)||!candidateDoesNotHitOtherTrees(candidate,t.key,lastCalculation.trees))return;
+    t.last={x:candidate.x,y:candidate.y};
+    const geom=circleGeom(candidate.x,candidate.y,candidate.radius_m,72).transform(UTM,VIEW);t.feature.setGeometry(geom);
+    const centerFeat=centerSource.getFeatures().find(f=>f.get('tree_key')===t.key);if(centerFeat){const pt=new Point([candidate.x,candidate.y]).transform(UTM,VIEW);centerFeat.setGeometry(pt);}
+  }
+});
+map.on('pointerup',()=>{
+  if(!toolPointer)return;
+  const t=toolPointer;toolPointer=null;
+  if(t.kind==='moveTree'){
+    const angle=num('angle')*Math.PI/180,dx=t.last.x-t.item.baseX,dy=t.last.y-t.item.baseY;
+    const du=dx*Math.cos(angle)+dy*Math.sin(angle),dv=-dx*Math.sin(angle)+dy*Math.cos(angle);
+    if(Math.hypot(du,dv)>0.02)treePositionOverrides.set(t.key,{du,dv});else treePositionOverrides.delete(t.key);
+    scheduleRecalculate(true);
+  }else if(t.kind==='moveGrid'||t.kind==='rotateGrid'){
+    updateOutputs();scheduleRecalculate(true);
+  }
+});
+get('toolMoveGrid').addEventListener('click',()=>setActiveTool('moveGrid'));
+get('toolRotateGrid').addEventListener('click',()=>setActiveTool('rotateGrid'));
+get('toolMoveTree').addEventListener('click',()=>setActiveTool('moveTree'));
+get('toolMeasure').addEventListener('click',()=>setActiveTool('measure'));
+get('toolClearMeasures').addEventListener('click',()=>{manualMeasureSource.clear();get('measurePanel').classList.remove('visible');get('measurePanel').textContent='';});
+
+// ---------- Ausführliche Absteck-/Vermessungsbemaßung entlang der drei Gitterachsen ----------
+function cross2(a,b){return a[0]*b[1]-a[1]*b[0];}
+function pointAtRingChainage(ring,chain){
+  const segs=[];let total=0;for(let i=0;i<ring.length-1;i++){const a=ring[i],b=ring[i+1],len=Math.hypot(b[0]-a[0],b[1]-a[1]);segs.push({a,b,start:total,len});total+=len;}
+  const d=((chain%total)+total)%total;for(const seg of segs){if(d<=seg.start+seg.len+1e-8){const f=seg.len?Math.max(0,Math.min(1,(d-seg.start)/seg.len)):0;return [seg.a[0]+(seg.b[0]-seg.a[0])*f,seg.a[1]+(seg.b[1]-seg.a[1])*f];}}
+  return ring[0].slice();
+}
+function nearestRingChainage(pt,ring){let best={dist:Infinity,chain:0},acc=0;for(let i=0;i<ring.length-1;i++){const a=ring[i],b=ring[i+1],dx=b[0]-a[0],dy=b[1]-a[1],len2=dx*dx+dy*dy,len=Math.sqrt(len2);const t=len2?Math.max(0,Math.min(1,((pt[0]-a[0])*dx+(pt[1]-a[1])*dy)/len2)):0;const q=[a[0]+t*dx,a[1]+t*dy],dist=Math.hypot(pt[0]-q[0],pt[1]-q[1]);if(dist<best.dist)best={dist,chain:acc+t*len};acc+=len;}return best.chain;}
+function boundaryPathBetween(ring,start,end){
+  const segLens=[];let total=0;for(let i=0;i<ring.length-1;i++){const l=Math.hypot(ring[i+1][0]-ring[i][0],ring[i+1][1]-ring[i][1]);segLens.push(l);total+=l;}
+  const s=((start%total)+total)%total;let e=((end%total)+total)%total;if(e<=s)e+=total;
+  const pts=[pointAtRingChainage(ring,s)];let acc=0;
+  for(let k=0;k<2;k++)for(let i=0;i<segLens.length;i++){const vertexChain=acc+segLens[i];if(vertexChain>s+1e-7 && vertexChain<e-1e-7)pts.push(ring[i+1].slice());acc=vertexChain;}
+  pts.push(pointAtRingChainage(ring,e));return {pts,total};
+}
+function pointInRingXY(pt,ring){let inside=false;for(let i=0,j=ring.length-1;i<ring.length;j=i++){const xi=ring[i][0],yi=ring[i][1],xj=ring[j][0],yj=ring[j][1];const intersect=((yi>pt[1])!==(yj>pt[1]))&&(pt[0]<(xj-xi)*(pt[1]-yi)/(yj-yi+1e-30)+xi);if(intersect)inside=!inside;}return inside;}
+function addSurveyLine(coords,kind){if(coords.length<2)return;surveySource.addFeature(featureFromGeom(new LineString(coords).transform(UTM,VIEW),{kind}));}
+function addSurveyLabel(coord,label){const p=new Point(coord).transform(UTM,VIEW);surveySource.addFeature(featureFromGeom(p,{kind:'label',label}));}
+function renderSurveyMeasurements(){
+  surveySource.clear();if(!surveyVisible||!lastCalculation)return;
+  const geom=geometryCloneTransform(lastCalculation.baseGeom,VIEW,UTM);const rings=geom.getCoordinates();if(!rings?.length||!rings[0]?.length)return;
+  const ring=rings[0];const origin=[lastCalculation.gridOrigin.x,lastCalculation.gridOrigin.y];
+  const ang=lastCalculation.angleDeg*Math.PI/180,c=Math.cos(ang),sn=Math.sin(ang),along=lastCalculation.along,pitch=lastCalculation.pitch,stagger=lastCalculation.stagger;
+  const a=[along*c,along*sn],b=[stagger*along*c-pitch*sn,stagger*along*sn+pitch*c],d=[b[0]-a[0],b[1]-a[1]];
+  const families=[
+    {name:'Reihenachse',dir:a,shift:b,gap:Math.abs(cross2(a,b))/Math.max(1e-9,Math.hypot(a[0],a[1])) ,point:i=>[origin[0]+i*b[0],origin[1]+i*b[1]]},
+    {name:'Querachse',dir:b,shift:a,gap:Math.abs(cross2(b,a))/Math.max(1e-9,Math.hypot(b[0],b[1])) ,point:i=>[origin[0]+i*a[0],origin[1]+i*a[1]]},
+    {name:'Diagonalachse',dir:d,shift:a,gap:Math.abs(cross2(d,a))/Math.max(1e-9,Math.hypot(d[0],d[1])) ,point:i=>[origin[0]+i*a[0],origin[1]+i*a[1]]}
+  ];
+  const xs=ring.map(p=>p[0]),ys=ring.map(p=>p[1]),diag=Math.hypot(Math.max(...xs)-Math.min(...xs),Math.max(...ys)-Math.min(...ys));
+  const treeBase=lastCalculation.trees.map(t=>({x:t.baseX??t.x,y:t.baseY??t.y,key:t.key}));
+  const boundaryHits=[];let lineCount=0,dimCount=0;
+  for(let fi=0;fi<families.length;fi++){
+    const fam=families[fi],unitLen=Math.hypot(fam.dir[0],fam.dir[1]);if(unitLen<1e-6||fam.gap<0.5)continue;
+    const dir=[fam.dir[0]/unitLen,fam.dir[1]/unitLen],normal=[-dir[1],dir[0]],N=Math.min(160,Math.ceil(diag/Math.max(0.5,fam.gap))+3),far=diag*2+100;
+    for(let idx=-N;idx<=N;idx++){
+      const p0=fam.point(idx),start=[p0[0]-dir[0]*far,p0[1]-dir[1]*far],end=[p0[0]+dir[0]*far,p0[1]+dir[1]*far];
+      const hits=[];
+      for(let e=0;e<ring.length-1;e++){
+        const p=ring[e],q=ring[e+1],seg=[q[0]-p[0],q[1]-p[1]],den=cross2(dir,seg);if(Math.abs(den)<1e-8)continue;
+        const rel=[p[0]-p0[0],p[1]-p0[1]],t=cross2(rel,seg)/den,u=cross2(rel,dir)/den;
+        if(u>=-1e-8&&u<=1+1e-8){const pt=[p0[0]+t*dir[0],p0[1]+t*dir[1]];if(!hits.some(h=>Math.hypot(h.pt[0]-pt[0],h.pt[1]-pt[1])<0.05))hits.push({t,pt});}
+      }
+      hits.sort((u,v)=>u.t-v.t);if(hits.length<2)continue;
+      hits.forEach(h=>boundaryHits.push(h.pt));
+      for(let h=0;h<hits.length-1;h++){
+        const h1=hits[h],h2=hits[h+1],midT=(h1.t+h2.t)/2,mid=[p0[0]+midT*dir[0],p0[1]+midT*dir[1]];
+        if(!pointInRingXY(mid,ring))continue;
+        const segmentStart=[p0[0]+h1.t*dir[0],p0[1]+h1.t*dir[1]],segmentEnd=[p0[0]+h2.t*dir[0],p0[1]+h2.t*dir[1]];
+        addSurveyLine([segmentStart,segmentEnd],'axis');lineCount++;
+        const nodes=treeBase.map(t=>{const rel=[t.x-p0[0],t.y-p0[1]];return {t:rel[0]*dir[0]+rel[1]*dir[1],perp:Math.abs(cross2(dir,rel))};}).filter(t=>t.perp<0.06&&t.t>h1.t+0.03&&t.t<h2.t-0.03).sort((u,v)=>u.t-v.t);
+        const marks=[{t:h1.t,pt:segmentStart},...nodes.map(n=>({t:n.t,pt:[p0[0]+n.t*dir[0],p0[1]+n.t*dir[1]]})),{t:h2.t,pt:segmentEnd}];
+        for(let m=0;m<marks.length-1;m++){
+          const aa=marks[m],bb=marks[m+1],length=bb.t-aa.t;if(length<0.2)continue;
+          addSurveyLine([aa.pt,bb.pt],'dimension');addSurveyLabel([(aa.pt[0]+bb.pt[0])/2,(aa.pt[1]+bb.pt[1])/2],fmtM(length,2));dimCount++;
+        }
+      }
+    }
+  }
+  // Bemaßung entlang des gesamten gezeichneten Außenumfangs zwischen den Schnittpunkten der Achsen.
+  const unique=[];for(const p of boundaryHits){if(!unique.some(q=>Math.hypot(q[0]-p[0],q[1]-p[1])<0.08))unique.push(p);}
+  const perimeter=ring.slice(0,-1).reduce((sum,p,i)=>sum+Math.hypot(ring[i+1][0]-p[0],ring[i+1][1]-p[1]),0);
+  if(unique.length>=2&&perimeter>0){
+    const alongPts=unique.map(pt=>({pt,chain:nearestRingChainage(pt,ring)})).sort((u,v)=>u.chain-v.chain);
+    for(let i=0;i<alongPts.length;i++){
+      const aPt=alongPts[i],bPt=alongPts[(i+1)%alongPts.length];let end=bPt.chain;if(i===alongPts.length-1)end+=perimeter;
+      const mid=(aPt.chain+end)/2,path=boundaryPathBetween(ring,aPt.chain,end);
+      addSurveyLine(path.pts,'boundaryDimension');addSurveyLabel(pointAtRingChainage(ring,mid),fmtM(end-aPt.chain,2));
+    }
+  }
+  const hitsCount=unique.length;
+  get('measurePanel').classList.add('visible');
+  get('measurePanel').textContent=`Gitter-Vermessung aktiv\nGitterachsen: ${lineCount} · Teilmaße: ${dimCount}\nSchnittpunkte mit der gezeichneten Grenze: ${hitsCount}\nAlle Maße in Metern. Blaue gestrichelte Linien = Gitterachsen; grüne Maße = Abstände zwischen Baumpositionen und zur Grenze.`;
+}
+get('toolSurvey').addEventListener('click',()=>{surveyVisible=!surveyVisible;surveyLayer.setVisible(surveyVisible);updateToolButtons();if(surveyVisible){if(lastCalculation)renderSurveyMeasurements();else get('measurePanel').textContent='Bitte zuerst den Grundstücksbereich zeichnen.';get('measurePanel').classList.add('visible');}else{surveySource.clear();if(activeTool!=='measure')get('measurePanel').classList.remove('visible');}});
+
 get('selectedTreeSpecies').addEventListener('change',()=>{
   if(!selectedTreeKey)return;
   const ov=treeOverrides.get(selectedTreeKey)||{};ov.species=get('selectedTreeSpecies').value;storeOverride(selectedTreeKey,ov);scheduleRecalculate(true);
@@ -640,7 +883,9 @@ async function exportLayoutJpeg(){
     let y=mapY+28;ctx.fillStyle='#173a2c';ctx.font='bold 17px system-ui, sans-serif';ctx.fillText('Legende',sx+18,y);y+=28;
     drawLegendSwatch(ctx,sx+18,y,'rgba(106,178,133,.25)','#28734e','Maximalbereich','rect');y+=29;
     drawLegendSwatch(ctx,sx+18,y,'rgba(255,255,255,0)','#596570','Gezeichneter Umriss','line');y+=29;
-    drawLegendSwatch(ctx,sx+18,y,'rgba(209,72,72,.25)','#b73535','Hindernis');y+=38;
+    drawLegendSwatch(ctx,sx+18,y,'rgba(209,72,72,.25)','#b73535','Hindernis');y+=29;
+    if(surveyVisible){drawLegendSwatch(ctx,sx+18,y,'rgba(0,0,0,0)','#1f709b','Gitterachsen / Vermessung','line');y+=29;}
+    y+=9;
     ctx.fillStyle='#173a2c';ctx.font='bold 14px system-ui, sans-serif';ctx.fillText('Baumarten',sx+18,y);y+=25;
     const feats=treeSource.getFeatures();
     for(const species of Object.keys(speciesColors)){
@@ -650,7 +895,7 @@ async function exportLayoutJpeg(){
     y+=12;ctx.strokeStyle='#d7e0dc';ctx.beginPath();ctx.moveTo(sx+18,y);ctx.lineTo(sx+sideW-18,y);ctx.stroke();y+=25;
     ctx.fillStyle='#173a2c';ctx.font='bold 14px system-ui, sans-serif';ctx.fillText('Zusammenfassung',sx+18,y);y+=26;
     const totalArea=feats.reduce((sum,f)=>sum+Math.PI*Math.pow(Number(f.get('radius_m')||num('diameter')/2),2),0);
-    const summaryLines=[`Baumzahl: ${feats.length}`,`Kreisfläche gesamt: ${fmtM2(totalArea)}`,`Standarddurchmesser: ${fmtM(num('diameter'),1)}`,`Reihenabstand: ${fmtM(num('rowPitch'),1)}`,`Abstand in Reihe: ${fmtM(num('spacing'),1)}`,`Versatz: ${num('stagger').toLocaleString('de-DE')}`];
+    const summaryLines=[`Baumzahl: ${feats.length}`,`Kreisfläche gesamt: ${fmtM2(totalArea)}`,`Standarddurchmesser: ${fmtM(num('diameter'),1)}`,`Reihenabstand: ${fmtM(num('rowPitch'),1)}`,`Abstand in Reihe: ${fmtM(num('spacing'),1)}`,`Versatz: ${num('stagger').toLocaleString('de-DE')}`,`Vermessungsmodus: ${surveyVisible?'aktiv':'aus'}`];
     ctx.font='12px system-ui, sans-serif';ctx.fillStyle='#30443a';for(const line of summaryLines){ctx.fillText(line,sx+18,y);y+=21;}
     ctx.fillStyle='#65756d';ctx.font='10px system-ui, sans-serif';ctx.fillText('Karte: © Geobasis NRW; ggf. © OpenStreetMap-Mitwirkende',sx+18,mapY+mapH-28);ctx.fillText('Planungsskizze, keine amtliche Vermessung.',sx+18,mapY+mapH-13);
     ctx.fillStyle='#63736b';ctx.font='10px system-ui, sans-serif';ctx.textAlign='left';ctx.fillText('Erstellt mit Baumplaner NRW · Maßstabsbalken anhand des aktuellen Kartenausschnitts berechnet',margin,mapY+mapH+27);
@@ -671,6 +916,7 @@ get('searchBtn').addEventListener('click',async()=>{const q=get('locationSearch'
 updateOutputs();
 setStatus('Bereit. Zoome zum Grundstück und klicke auf „Bereich zeichnen“.');
 showMapBadge('NRW-Luftbild und Flurstücksdienst laden. Zoome zum Grundstück und zeichne dann den Bereich.');
+updateToolButtons();
 // Browser console diagnostic / early library errors are visible in UI instead of silently failing.
 window.addEventListener('error',e=>{if(e.message)setStatus('JavaScript-Fehler: '+e.message,'error')});
 </script>
